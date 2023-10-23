@@ -9,6 +9,8 @@ contract Lock {
     address payable public owner;
 
     event Withdrawal(uint amount, uint when);
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
 
     constructor(uint _unlockTime) payable {
         require(
@@ -30,5 +32,12 @@ contract Lock {
         emit Withdrawal(address(this).balance, block.timestamp);
 
         owner.transfer(address(this).balance);
+    }
+
+    function test() public {
+        emit Withdrawal(address(this).balance, block.timestamp);
+        emit Transfer(address(this), msg.sender, 1 ether);
+        emit Transfer(address(this), msg.sender, 2 ether);
+        emit Transfer(msg.sender, address(this), 12 ether);
     }
 }
